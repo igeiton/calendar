@@ -1,0 +1,357 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic);
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    font-family: 'Roboto';
+
+    color: white;
+    background-color: #1b1b1b;
+}
+
+$gg-pd: 15px;
+
+/* ------------- re-use ------------- */
+
+#root {
+    display: flex;
+    flex-direction: column;
+    grid-gap: $gg-pd * 2;
+    padding: $gg-pd;
+}
+
+input {
+    &:focus {
+        outline: none;
+    }
+}
+::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+::-webkit-datetime-edit-fields-wrapper {
+    display: none;
+}
+
+button {
+    border-radius: 5px;
+    padding: 5px 15px;
+    border: 1px solid #fff;
+
+    grid-column: 2/4;
+
+    transition: linear 0.15s;
+}
+
+.goBack {
+    align-self: flex-start;
+    opacity: 0.7;
+    border: 0.5px solid #fff;
+}
+
+/* ------------- header ------------- */
+
+header {
+    label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        padding: 5px 10px;
+        border: 1px solid #fff;
+        grid-gap: 5px;
+
+        height: 100%;
+
+        transition: linear 0.15s;
+
+        & * {
+            background-color: inherit;
+        }
+    }
+}
+
+header input {
+    position: relative;
+    background-color: inherit;
+    border: none;
+    margin: 0 auto;
+    width: 0;
+    padding: 10px;
+}
+
+header form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: $gg-pd;
+    align-items: center;
+}
+
+.today {
+    height: 100%;
+    border: 1px solid 474747;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: #474747;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    grid-gap: 5px;
+
+    flex: 1 0 auto;
+
+    div {
+        background-color: inherit;
+    }
+}
+
+/* ------------- main ------------- */
+
+main {
+    a {
+        text-decoration: none;
+        align-self: center;
+
+        span {
+            text-decoration: underline;
+            background-color: inherit;
+        }
+    }
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 5px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: $gg-pd;
+}
+
+.day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    border-radius: 15px;
+    margin: 5px 0px;
+
+    border: 1px solid #000;
+    background-color: rgb(71, 71, 71);
+
+    transition: linear 0.3s, box-shadow 0.15s;
+}
+
+.dayOfWeek {
+    display: flex;
+    grid-gap: $gg-pd;
+    text-decoration: underline;
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1 0 10%;
+        height: 50px;
+    }
+}
+
+.even {
+    background-color: rgb(102, 102, 102);
+}
+
+.empty {
+    cursor: auto;
+    border: none;
+    opacity: 0.21;
+}
+
+.yellow {
+    border: 1px solid yellow;
+    background-color: rgba(255, 255, 0, 0.288);
+}
+
+.legend {
+    margin-top: 5px;
+    font-size: 50%;
+    opacity: 0.5;
+}
+
+/* ------------- notes ------------- */
+
+.note {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 15px;
+
+    div {
+        align-self: center;
+    }
+}
+
+.note form {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 15px;
+}
+
+.editNote {
+    width: 100%;
+
+    button {
+        width: 100%;
+    }
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 5px;
+}
+
+input {
+    text-align: center;
+    border: none;
+    background-color: #727272;
+    padding: 10px;
+    border-radius: 5px;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+textarea {
+    height: auto;
+    resize: vertical;
+    background-color: #727272;
+    padding: $gg-pd;
+    border-radius: 5px;
+    display: flex;
+
+    overflow: hidden;
+
+    transition: linear 0.15s;
+    &:focus {
+        outline: none;
+    }
+}
+
+.saved {
+    transition: linear 0.15s;
+    background-color: rgba(0, 255, 0, 0.5);
+}
+
+.hasNote {
+    position: relative;
+
+    &::after {
+        position: absolute;
+        content: '*';
+        color: red;
+        top: 5%;
+        right: 10%;
+    }
+}
+
+.buttons {
+    display: flex;
+    grid-gap: 15px;
+
+    button {
+        min-width: 100px;
+    }
+}
+
+/* ------------- media ------------- */
+
+@media (max-width: 900px) {
+    $gg-pd: 5px;
+    #root {
+        font-size: 50%;
+    }
+
+    input {
+        font-size: 100%;
+    }
+
+    .dayOfWeek,
+    .days {
+        grid-gap: $gg-pd;
+        div {
+            height: 25px;
+            border-radius: $gg-pd;
+        }
+    }
+}
+
+@media (hover: hover) {
+    .day {
+        cursor: pointer;
+    }
+    .goBack:hover {
+        opacity: 1;
+    }
+    header label:hover {
+        cursor: pointer;
+        background-color: #a7a7a7;
+    }
+    input:hover {
+        cursor: pointer;
+    }
+    textarea:hover {
+        cursor: pointer;
+    }
+    button:hover {
+        cursor: pointer;
+        background-color: #a7a7a7;
+    }
+    .day:not(.empty):hover {
+        box-shadow: 0 0 10px 0 white;
+    }
+}
+
+@media (hover: none) {
+    .goBack:active {
+        opacity: 1;
+    }
+    header label,
+    button,
+    .day:not(.empty) {
+        transition: 0.1s;
+    }
+
+    header label:active {
+        background-color: #a7a7a7;
+    }
+    input:active {
+        background-color: #a7a7a7;
+    }
+    textarea:active {
+        background-color: #a7a7a7;
+    }
+    button:active {
+        background-color: #a7a7a7;
+    }
+    .day:not(.empty):active {
+        box-shadow: 0 0 10px 0 white;
+    }
+}
