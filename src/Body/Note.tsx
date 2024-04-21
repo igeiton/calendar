@@ -3,9 +3,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addNote, updateNote } from '../store/notes';
 
+interface Notes {
+    [keys: string]: string;
+}
+
+interface Ref {
+    current: {
+        style: { backgroundColor: string };
+        innerText: string;
+        disabled: boolean;
+    };
+}
+
+// type Event = { // event button
+//     target: {
+//         name: string;
+//         innerText: string;
+//     };
+//     preventDefault: () => void;
+// };
+type Value = {
+    title: string;
+    body: string;
+};
+
 export default function Note() {
-    const param = useParams();
-    const notes = useSelector((state) => state.notes.notes[param.date]);
+    const param: any = useParams();
+    const notes: Notes = useSelector(
+        (state: any) => state.notes.notes[param.date]
+    );
+
     const navigate = useNavigate();
 
     const [value, setValue] = useState({
@@ -13,17 +40,17 @@ export default function Note() {
         body: notes?.body || '',
     });
 
-    const refTitle = useRef();
-    const refBody = useRef();
-    const refSave = useRef();
-    const refClear = useRef();
+    const refTitle: any = useRef();
+    const refBody: any = useRef();
+    const refSave: any = useRef();
+    const refClear: any = useRef();
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(addNote({ noteLink: param.date }));
     }, [param.date]);
 
-    function handleSubmit(event, value) {
+    function handleSubmit(event: string, value: Value) {
         dispatch(
             updateNote({
                 noteLink: param.date,
@@ -32,20 +59,20 @@ export default function Note() {
             })
         );
 
-        if (event.innerText === refSave.current.innerText)
+        if (event === refSave.current.innerText)
             saved('Сохранено', 'rgba(0, 255, 0, 0.5)', refSave);
         else {
             saved('Очищено', 'black', refClear);
         }
     }
 
-    function saved(text, color, ref) {
+    function saved(text: string, color: string, ref: Ref) {
         const prevRef = ref.current.innerText;
         ref.current.style.backgroundColor = color;
         ref.current.innerText = text;
         ref.current.disabled = true;
 
-        const timeout = setTimeout(() => {
+        setTimeout(() => {
             ref.current.style.backgroundColor = '';
             ref.current.innerText = prevRef;
             ref.current.disabled = false;
@@ -92,9 +119,12 @@ export default function Note() {
                 <div className="buttons">
                     <button
                         ref={refClear}
-                        onClick={(event) => {
+                        onClick={(event: any) => {
                             event.preventDefault();
-                            handleSubmit(event.target, { title: '', body: '' });
+                            handleSubmit(event.target.innerText, {
+                                title: '',
+                                body: '',
+                            });
                             setValue({ title: '', body: '' });
                         }}
                     >
@@ -102,9 +132,9 @@ export default function Note() {
                     </button>
                     <button
                         ref={refSave}
-                        onClick={(event) => {
+                        onClick={(event: any) => {
                             event.preventDefault();
-                            handleSubmit(event.target, value);
+                            handleSubmit(event.target.innerText, value);
                         }}
                     >
                         Сохранить

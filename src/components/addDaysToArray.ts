@@ -34,35 +34,58 @@
 //     return arr;
 // }
 
-export function addDaysToArray(selectedDate, days) {
-    const arr = [];
+interface SelectedDate {
+    startDate: string;
+    endDate: string;
+    dateDaysDiff: number;
+    dateDays: DateDays;
+}
+
+interface Day {
+    number: number;
+    style: number;
+    hasNote: boolean;
+    colored?: boolean;
+    find?: any;
+}
+
+export function addDaysToArray(selectedDate: SelectedDate, days: number) {
+    const arr: Day[] = [];
     const [startYear, startMonth, startDay] = selectedDate.startDate.split('-');
     const [endYear, endMonth, endDay] = selectedDate.endDate.split('-');
 
-    const startDayWeek = new Date(startYear, startMonth - 1, startDay).getDay();
-    const endDateWeek = new Date(endYear, endMonth - 1, endDay).getDay();
+    const startDayWeek: number = new Date(
+        Number(startYear),
+        Number(startMonth) - 1,
+        Number(startDay)
+    ).getDay();
+    const endDateWeek: number = new Date(
+        Number(endYear),
+        Number(endMonth) - 1,
+        Number(endDay)
+    ).getDay();
 
     for (let i = 1; i < (startDayWeek === 0 ? 7 : startDayWeek); i++) {
-        arr.push({ number: '' });
+        arr.push({ number: -1, style: -1, hasNote: false });
     }
 
     for (let i = 0; i < days; i++) {
-        const newDay = {
+        const newDay: Day = {
             number: new Date(
-                startYear,
-                startMonth - 1,
+                Number(startYear),
+                Number(startMonth) - 1,
                 Number(startDay) + i
             ).getTime(),
             style:
                 new Date(
-                    startYear,
-                    startMonth - 1,
+                    Number(startYear),
+                    Number(startMonth) - 1,
                     Number(startDay) + i
                 ).getMonth() % 2,
             hasNote: false,
         };
 
-        const oldDay = selectedDate.dateDays.find((day) => {
+        const oldDay: Day = selectedDate.dateDays.find((day: Day) => {
             if (Number(day.number) === Number(newDay.number)) {
                 return day;
             }
@@ -72,22 +95,22 @@ export function addDaysToArray(selectedDate, days) {
     }
 
     for (let i = endDateWeek; i < 7 && endDateWeek !== 0; i++) {
-        arr.push({ number: '' });
+        arr.push({ number: -1, style: -1, hasNote: false });
     }
     return arr;
 }
 
-export function convertDaysInArray(arr) {
-    const array = arr.map((day) => {
-        return day.number === ''
-            ? day
-            : { ...day, number: new Date(day.number).getDate() };
-    });
+// export function convertDaysInArray(arr) {
+//     const array = arr.map((day) => {
+//         return day.number === ''
+//             ? day
+//             : { ...day, number: new Date(day.number).getDate() };
+//     });
 
-    return array;
-}
+//     return array;
+// }
 
-export function dateDiff(date1, date2) {
+export function dateDiff(date1: any, date2: any): number {
     date1 = date1.split('-');
     date2 = date2.split('-');
 
@@ -97,14 +120,18 @@ export function dateDiff(date1, date2) {
     return Math.round((date2 - date1) / (1000 * 60 * 60 * 24)) + 1;
 }
 
-export const dateToday = new Date()
+export const dateToday: string = new Date()
     .toLocaleDateString()
     .split('.')
     .reverse()
     .join('-');
 
-export function dateMethodsPick(variable, method, split = false) {
-    const date = new Date(variable)[method]();
+export function dateMethodsPick(
+    variable: number | Date,
+    method: string,
+    split: boolean = false
+): string {
+    const date: string = new Date(variable)[method]();
 
     if (split) {
         return date.split('.').join('-');

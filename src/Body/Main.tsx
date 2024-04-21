@@ -1,16 +1,29 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { applyDays, hasNote } from '../store/selectedDate';
 import { useEffect } from 'react';
-import { dateDiff, dateMethodsPick } from '../components/addDaysToArray';
+import {
+    dateDiff,
+    dateMethodsPick,
+    dateToday,
+} from '../components/addDaysToArray';
 import DaysLauncher from './daysLauncher';
 import { Link } from 'react-router-dom';
 
-export default function Main() {
-    const selectedDate = useSelector((state) => state.selectedDate);
-    const dateDays = useSelector((state) => state.selectedDate.dateDays);
-    const notes = useSelector((state) => state.notes.notes);
+interface DateDays {
+    number: number;
+    style?: boolean;
+    hasNote?: boolean;
+    colored?: boolean;
+}
 
-    const noteLink = useSelector((state) => state.notes.noteLink);
+export default function Main() {
+    const selectedDate = useSelector((state: any) => state.selectedDate);
+    const dateDays: DateDays[] = useSelector(
+        (state: any) => state.selectedDate.dateDays
+    );
+
+    const notes = useSelector((state: any) => state.notes.notes);
+    const noteLink = useSelector((state: any) => state.notes.noteLink);
 
     const diff = dateDiff(selectedDate.startDate, selectedDate.endDate);
 
@@ -21,11 +34,12 @@ export default function Main() {
 
     useEffect(() => {
         for (let i = 0; i < dateDays.length; i++) {
-            const note = dateMethodsPick(
+            const note: string = dateMethodsPick(
                 dateDays[i].number,
                 'toLocaleDateString',
                 true
             );
+
             if (!notes[note]?.title && !notes[note]?.body) {
                 dispatch(hasNote({ day: i, hasNote: false }));
                 continue;
@@ -59,7 +73,7 @@ export default function Main() {
                 <Link
                     className="editNote"
                     to={`${dateMethodsPick(
-                        noteLink,
+                        dateToday,
                         'toLocaleDateString',
                         true
                     )}`}
@@ -68,7 +82,9 @@ export default function Main() {
                         Редактировать заметку на{' '}
                         <span>
                             {dateMethodsPick(
-                                noteLink,
+                                typeof noteLink === 'number'
+                                    ? noteLink
+                                    : dateToday,
                                 'toLocaleDateString',
                                 true
                             )}

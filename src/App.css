@@ -153,9 +153,9 @@ main a span {
 }
 
 .empty {
-  cursor: auto;
   border: none;
   opacity: 0.21;
+  pointer-events: none;
 }
 
 .yellow {

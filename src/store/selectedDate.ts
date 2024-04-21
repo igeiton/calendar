@@ -1,5 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addDaysToArray, dateToday } from '../components/addDaysToArray';
+import { Props } from '../Body/daysLauncher';
+
+// interface State {
+//     startDate: string;
+//     endDate: string;
+//     dateDaysDiff: number;
+//     dateDays: {
+//         number: number;
+//         style: number;
+//         hasNote: boolean;
+//         colored?: boolean;
+//         find?: any;
+//     }[];
+// }
+
+// interface Action {
+//     payload: Props;
+// }
 
 const selectedDateSlice = createSlice({
     name: 'date',
@@ -10,20 +28,23 @@ const selectedDateSlice = createSlice({
         dateDays: [],
     },
     reducers: {
-        applyDate(state, action) {
+        applyDate(state: any, action: any) {
             state.startDate = action.payload.startDate;
             state.endDate = action.payload.endDate;
         },
-        applyDays(state, action) {
+
+        applyDays(state: any, action: any) {
             state.dateDaysDiff = action.payload.dateDaysDiff;
 
             state.dateDays = addDaysToArray(state, action.payload.dateDaysDiff);
         },
-        toggleColor(state, action) {
+
+        toggleColor(state: any, action: any) {
             state.dateDays[action.payload.index].colored =
                 !state.dateDays[action.payload.index].colored;
         },
-        hasNote(state, action) {
+
+        hasNote(state: any, action: any) {
             state.dateDays[action.payload.day].hasNote = action.payload.hasNote;
         },
     },

@@ -4,24 +4,30 @@ import { applyDate } from '../store/selectedDate';
 import { dateToday } from '../components/addDaysToArray';
 import Today from './Today';
 
-export default function Form() {
-    const selectedDate = useSelector((state) => state.selectedDate);
+interface SelectedDate {
+    startDate: Date;
+    endDate: Date;
+    dateDaysDiff: number;
+    dateDays: number[];
+}
 
-    const [value, setValue] = useState({
+interface Dates {
+    startDate: string;
+    endDate: string;
+}
+
+export default function Form() {
+    const selectedDate = useSelector((state: any) => state.selectedDate);
+
+    const [value, setValue] = useState<Dates>({
         startDate: selectedDate.startDate,
         endDate: selectedDate.endDate,
     });
 
-    const refInputMin = useRef();
-    const refInputMax = useRef();
+    const refInputMin: any = useRef(null);
+    const refInputMax: any = useRef(null);
 
     const dispatch = useDispatch();
-
-    function focus(event) {
-        event === 'min'
-            ? refInputMin.current.showPicker()
-            : refInputMax.current.showPicker();
-    }
 
     useEffect(() => {
         dispatch(
@@ -34,7 +40,7 @@ export default function Form() {
             <Today />
 
             <label
-                onClick={(event) => focus(event.currentTarget.htmlFor)}
+                onClick={() => refInputMin.current.showPicker()}
                 htmlFor="min"
             >
                 <div>Начало</div>
@@ -56,7 +62,7 @@ export default function Form() {
             </label>
 
             <label
-                onClick={(event) => focus(event.currentTarget.htmlFor)}
+                onClick={() => refInputMax.current.showPicker()}
                 htmlFor="max"
             >
                 <div>Конец</div>

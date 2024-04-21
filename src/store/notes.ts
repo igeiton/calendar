@@ -1,6 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { dateMethodsPick } from '../components/addDaysToArray';
 
+interface State {
+    noteLink: string;
+    notes: {
+        [key: string]: Note;
+    };
+}
+
+interface Action {
+    payload: Note;
+}
+
+interface Note {
+    noteLink: string;
+    title: string;
+    body: string;
+}
+
 const notesSlice = createSlice({
     name: 'notes',
     initialState: {
@@ -8,22 +25,23 @@ const notesSlice = createSlice({
         notes: {},
     },
     reducers: {
-        addNote(state, action) {
+        addNote(state: State, action: Action): void {
             state.notes[action.payload.noteLink] = {
                 ...state.notes[action.payload.noteLink],
                 noteLink: action.payload.noteLink,
             };
         },
 
-        updateNote(state, action) {
+        updateNote(state: State, action: Action): void {
             state.notes[action.payload.noteLink] = {
                 ...state.notes[action.payload.noteLink],
                 title: action.payload.title,
                 body: action.payload.body,
             };
+            console.log(state.notes[action.payload.noteLink]);
         },
 
-        updateNoteLink(state, action) {
+        updateNoteLink(state: State, action: Action): void {
             state.noteLink = action.payload.noteLink;
         },
     },

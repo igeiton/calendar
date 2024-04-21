@@ -4,21 +4,31 @@ import { dateMethodsPick } from '../components/addDaysToArray';
 import { updateNoteLink } from '../store/notes';
 // import { useNavigate } from 'react-router-dom';
 
-export default function DaysLauncher({ day, index }) {
+export interface Props {
+    day: {
+        number: number;
+        style: boolean;
+        hasNote: boolean;
+        colored?: boolean;
+    };
+    index: number;
+}
+
+export default function DaysLauncher({ day, index }: Props) {
     // const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleSubmit = () => {
-        dispatch(toggleColor({ index }));
+        dispatch(toggleColor({ index: index }));
     };
 
-    function handleUpdateNotes(noteLink) {
-        dispatch(updateNoteLink({ noteLink }));
+    function handleUpdateNotes(noteLink: number) {
+        day.number !== -1 && dispatch(updateNoteLink({ noteLink }));
     }
 
     const handleStyles = () => {
-        const border = day.colored && day.number !== '' ? 'yellow' : '';
+        const border = day.colored && day.number !== -1 ? 'yellow' : '';
         const background = day.style ? 'even' : 'odd';
-        const empty = day.number === '' ? 'empty' : '';
+        const empty = day.number === -1 ? 'empty' : '';
         const hasNote = day.hasNote ? 'hasNote' : '';
 
         return `${border} ${background} ${empty} ${hasNote}`;
@@ -34,13 +44,13 @@ export default function DaysLauncher({ day, index }) {
         <div
             // onDoubleClickCapture={handleToNote}
             onClick={() => {
-                day.number && handleSubmit();
+                handleSubmit();
                 handleUpdateNotes(day.number);
             }}
             key={index}
             className={`day ${handleStyles()}`}
         >
-            {day.number === '' ? '' : dateMethodsPick(day.number, 'getDate')}
+            {day.number === -1 ? '' : dateMethodsPick(day.number, 'getDate')}
         </div>
     );
 }
