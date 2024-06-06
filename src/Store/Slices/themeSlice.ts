@@ -19,7 +19,7 @@ interface Colors {
     contrastText: string;
 }
 
-const lightMode = {
+export const lightMode = {
     primary: {
         main: '#FFFFFF',
         dark: '#ECECEC',
@@ -32,14 +32,14 @@ const lightMode = {
     },
 };
 
-const darkMode = {
+export const darkMode = {
     primary: {
         main: '#212121',
         dark: '#171717',
         contrastText: '#FFFFFF',
     },
     secondary: {
-        main: '#212121',
+        main: '#3A3A3A',
         dark: '#171717',
         contrastText: '#FFFFFF',
     },

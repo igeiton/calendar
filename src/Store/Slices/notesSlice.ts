@@ -17,7 +17,7 @@ const notesSLice = createSlice({
     name: 'notesSLice',
     initialState: {
         isOpenNotesDrawer: false,
-        idOfDay: '',
+        idOfDay: new Date().toLocaleDateString('LT'),
         noteList: [
             {
                 id: '2024-04-22',
@@ -59,6 +59,7 @@ const notesSLice = createSlice({
                     color: '#FF0000',
                 },
             ];
+            state.idOfDay = new Date().toLocaleDateString('LT');
         },
     },
 });
